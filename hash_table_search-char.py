@@ -1,4 +1,5 @@
 from time import perf_counter
+from operator import itemgetter
 
 file = 'akjv.txt'
 
@@ -7,15 +8,12 @@ with open(file) as f:
     buf = f.read()
 print(f"size of the file: {len(buf)/1024**2:.2f}mb")
 
-collection = []
-
-N = 80
+N = 255
 
 arr = [['', 0, False] for i in range(N)]
 
 def hashed(char : str):
-    val = ord(char)
-    return val
+    return ord(char)
 
 def open_add(key : int, char : str):
     c = 0 # if we iterate thru the arr and 
@@ -34,24 +32,25 @@ def open_add(key : int, char : str):
             arr[key] = [char, 1, True]
             break
 
-# O(n^2) or O(m×n)
+# O(m×n)
 start = perf_counter()
-for i in range(0, len(buf)):
-    key = hashed(buf[i])%N
+for i in buf:
+    key = hashed(i)%N
     if arr[key][2]: # occupied scenario
-        if not arr[key][0] == buf[i]: # collided
-            open_add(key, buf[i])
+        if not arr[key][0] == i: # collided
+            open_add(key, i)
         else:
             arr[key][1] += 1
     else: # unoccupied scenario
         # init
-        arr[key] = [buf[i], 1, True]
+        arr[key] = [i, 1, True]
 total = perf_counter() - start
 
-arr.sort()
-n = 0
-for i,v in enumerate(arr):
-    if v[2]:
-        n += 1
-        print(f'indx: {n} char: {v[0].encode()}, count: {v[1]}')
+occ = [v for v in arr if v[2]]
+occ.sort(key=itemgetter(1), reverse=True)
+print('Top 10 frequent char:')
+for i,v in enumerate(occ):
+    if i > 10:
+        break
+    print(f'indx: {i} char: {v[0].encode()}, count: {v[1]}')
 print(f'Time elapse: {total:.2f}sec')
