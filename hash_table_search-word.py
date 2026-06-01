@@ -70,3 +70,5 @@ for i,v in enumerate(occ):
 print(f'Hash collisons: {col_c}')
 print(f'Unique tokens: {len(occ)}')
 print(f'Time elapse: {total:.2f}sec')
+
+# 0.99sec
