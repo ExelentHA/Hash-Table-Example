@@ -1,5 +1,6 @@
 from time import perf_counter
 from operator import itemgetter
+from tqdm import tqdm
 
 file = 'akjv.txt'
 
@@ -45,7 +46,7 @@ def open_add(key : int, chars : str):
 stp = 2
 col_c = 0
 start = perf_counter()
-for i in range(0, len(buf), stp):
+for i in tqdm(range(0, len(buf), stp)):
     if i+stp > len(buf):
         break
     pair = buf[i]+buf[i+1]

@@ -1,6 +1,7 @@
 from time import perf_counter
 from operator import itemgetter
 from re import findall
+from tqdm import tqdm
 
 file = 'akjv.txt'
 
@@ -29,21 +30,9 @@ def increment(char : str):
         if char == collection[i][0]:
             collection[i][1] += 1
 
-cclk = 0
-tkc = 0
-def updateStatus():
-    global cclk
-    clk = perf_counter()
-    if clk > cclk:
-        print(f"Evaluated Tokens: {len(collection)}, Token Left: {len(buf) - tkc}")
-        cclk = clk + 10 # update every 10s 
-
-
 # O(n^2) or O(m×n)
 start = perf_counter()
-for i in buf:
-    tkc += 1
-    updateStatus()
+for i in tqdm(buf):
     if not check_if_exist(i):
         collection.append([i, 1])
     else:
@@ -54,6 +43,8 @@ collection.sort(key=itemgetter(1), reverse=True)
 
 n = 0
 for i in collection:
+    if n >= 10:
+        break
     n += 1
     print(f'indx: {n}, char: {i[0].encode()}, count: {i[1]}')
 print(f'Time elapse: {total:.2f}sec')

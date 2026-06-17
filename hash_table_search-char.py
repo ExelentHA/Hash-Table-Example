@@ -1,5 +1,6 @@
 from time import perf_counter
 from operator import itemgetter
+from tqdm import tqdm
 
 file = 'akjv.txt'
 
@@ -34,7 +35,7 @@ def open_add(key : int, char : str):
 
 # O(m×n)
 start = perf_counter()
-for i in buf:
+for i in tqdm(buf):
     key = hashed(i)%N
     if arr[key][2]: # occupied scenario
         if not arr[key][0] == i: # collided

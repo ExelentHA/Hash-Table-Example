@@ -1,4 +1,5 @@
 from time import perf_counter
+from tqdm import tqdm
 
 file = 'akjv.txt'
 
@@ -24,7 +25,7 @@ def increment(char : str):
 
 # O(n^2) or O(m×n)
 start = perf_counter()
-for i in range(0, len(buf)):
+for i in tqdm(range(0, len(buf))):
     if not check_if_exist(buf[i]):
         collection.append([buf[i], 1])
     else:

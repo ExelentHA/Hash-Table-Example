@@ -1,5 +1,6 @@
 from time import perf_counter
 from operator import itemgetter
+from tqdm import tqdm
 
 file = 'akjv.txt'
 
@@ -47,7 +48,7 @@ col_c = 0
 
 # O(n^2) or O(m×n)
 start = perf_counter()
-for i in toks:
+for i in tqdm(toks):
     key = djb2(i)%N # O(1)
     if arr[key][2]: # occupied scenario
         if arr[key][0] != i: # collided
